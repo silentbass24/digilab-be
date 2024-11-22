@@ -1,0 +1,308 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Associati digilab",
+        "description": "Api per la gestione degli associati del digilab",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/associati": {
+            "get": {
+                "tags": [
+                    "gestione associati"
+                ],
+                "summary": "Recupera la lista degli associati",
+                "operationId": "3b31d33d949eea076ee84d5f0e0ba542",
+                "responses": {
+                    "200": {
+                        "description": "lista associati"
+                    },
+                    "500": {
+                        "description": "Errore nel recupero della lista degli associati"
+                    }
+                }
+            }
+        },
+        "/api/nuovo-associato": {
+            "post": {
+                "tags": [
+                    "gestione associati"
+                ],
+                "summary": "Aggiunge un nuovo associato",
+                "description": "inserisce i dati della richiesta di associazione nel database",
+                "operationId": "bb85ff1fda5e6eee753b61e4b110fb4f",
+                "requestBody": {
+                    "description": "dati associato",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "cognome",
+                                    "codice_fiscale",
+                                    "nome_genitore",
+                                    "cognome_genitore",
+                                    "telefono",
+                                    "email",
+                                    "indirizzo",
+                                    "citta",
+                                    "provincia",
+                                    "cap",
+                                    "data_nascita"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "cognome": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "codice_fiscale": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "nome_genitore": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "cognome_genitore": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "indirizzo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "citta": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "provincia": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "cap": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "data_nascita": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "associato aggiunto"
+                    },
+                    "500": {
+                        "description": "Errore nell'inserimento del nuovo associato"
+                    }
+                }
+            }
+        },
+        "/api/elimina-associato/{id}": {
+            "delete": {
+                "tags": [
+                    "gestione associati"
+                ],
+                "summary": "Elimina un associato tramite il suo id",
+                "operationId": "44e17a77c4515ad6af9d2debfdef2170",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id dell'associato da eliminare",
+                        "required": true,
+                        "schema": {
+                            "description": "user id",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "associato eliminato"
+                    },
+                    "500": {
+                        "description": "associato non trovato"
+                    }
+                }
+            }
+        },
+        "/api/associato/{id}": {
+            "get": {
+                "tags": [
+                    "gestione associati"
+                ],
+                "summary": "Recupera un associato tramite il suo id",
+                "operationId": "13c6fe91a594c4c34c240b1c8db73e05",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id dell'associato da recuperare",
+                        "required": true,
+                        "schema": {
+                            "description": "user id",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "dati dell'associato"
+                    },
+                    "500": {
+                        "description": "associato non trovato"
+                    }
+                }
+            }
+        },
+        "/api/modifica-associato/{id}": {
+            "put": {
+                "tags": [
+                    "gestione associati"
+                ],
+                "summary": "Modificata associato",
+                "description": "modifica i dati dell'associazione nel database",
+                "operationId": "97598a95aaa852a6fa2207e4bf49d10a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id dell'associato da recuperare",
+                        "required": true,
+                        "schema": {
+                            "description": "user id",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "dati associato",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "nome",
+                                    "cognome",
+                                    "codice_fiscale",
+                                    "nome_genitore",
+                                    "cognome_genitore",
+                                    "telefono",
+                                    "email",
+                                    "indirizzo",
+                                    "citta",
+                                    "provincia",
+                                    "cap",
+                                    "data_nascita",
+                                    "iscritto",
+                                    "data_iscrizione",
+                                    "data_scadenza"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "cognome": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "codice_fiscale": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "nome_genitore": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "cognome_genitore": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "indirizzo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "citta": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "provincia": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "cap": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "data_nascita": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "iscritto": {
+                                        "type": "string",
+                                        "format": "boolean"
+                                    },
+                                    "data_iscrizione": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "data_scadenza": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "associato aggiunto"
+                    },
+                    "500": {
+                        "description": "Errore nell'inserimento del nuovo associato"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "gestione associati",
+            "description": "gestione associati"
+        }
+    ]
+}
