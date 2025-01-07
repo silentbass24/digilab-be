@@ -64,6 +64,7 @@ class Associati extends Model
 		'data_nascita',
 		'iscritto',
 		'data_iscrizione',
-		'data_scadenza'
+		'data_scadenza',
+        'numero_tessera'
 	];
 }

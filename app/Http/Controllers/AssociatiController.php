@@ -10,6 +10,7 @@ use OpenApi\Attributes as OA;
 use PHPUnit\Framework\Constraint\IsEmpty;
 use Validator;
 use Illuminate\Support\Facades\Log;
+use App\Services\AssociatiService;
 
 #[OA\Info(
     title: "API Associati digilab",
@@ -84,7 +85,7 @@ class AssociatiController extends Controller
         ]
     )]
 
-    public function addNuovoAssociato(Request $request){
+    public function addNuovoAssociato(Request $request, AssociatiService $associatiService){
         $validatedData = Validator::make($request->all(),[
             'nome' => 'required|string|max:255',
             'cognome' => 'required|string|max:255',
@@ -140,6 +141,7 @@ class AssociatiController extends Controller
                 'data_nascita' => $request['data_nascita'],
                 'iscritto' => 0,
             ]);
+            $associatiService->invioRichiestaAssociazione($request);
             return response()->json(['message' => 'associato aggiunto'], 200);
         }
 
@@ -325,4 +327,74 @@ class AssociatiController extends Controller
         }
         return response()->json(['message'=> 'account non trovato'],404);
     }
+
+    #[OA\Put(
+        path: '/api/conferma-associato/{id}',
+        summary: 'Conferma associazione',
+        tags: ["gestione associati"],
+        description:"conferma l'iscrizione dell'associato",
+        parameters: [
+            new OA\Parameter(
+                name: "id",
+                in: "path",
+                required: true,
+                description: "id dell'associato da recuperare",
+                schema: new OA\Schema(type: "string", minimum: 16, description: "user id"),
+            )
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'conferma iscrizione'),
+            new OA\Response(response: 404, description: 'associato non trovato'),
+            new OA\Response(response: 500, description: 'Errore nella conferma'),
+        ]
+    )]
+    public function confermaAssociato(Request $request, AssociatiService $associatiService){
+        if(!empty($request['id'])){
+            $data = Associati::where('id', $request['id'])->firstOrFail();
+            // Log::info("Utente: ".$data);
+            if($data->count() > 0){
+                $anno_iscrizione = date('Y');
+                Associati::where('id', $request['id'])->update([
+                    'iscritto' => 1,
+                    'data_iscrizione' => date('Y-m-d'),
+                    'data_scadenza' => date('Y-m-d', strtotime('31 December '.$anno_iscrizione)),
+                ]);
+                $associatiService->pdfCardAssociato($data);
+                $associatiService->invioConfermaAssociazione($data);
+                return response()->json(['message' => 'conferma iscrizione'], 200);
+            }
+            return response()->json(['message' => 'associato non trovato'], 404);
+        }
+        return response()->json(['message' => 'associato non trovato'], 500);
+    }
+
+    #[OA\Get(
+        path:'/api/associato/{tessera}',
+        summary:'Recupera un associato tramite il suo id',
+        tags: ["gestione associati"],
+        parameters:[
+            new OA\Parameter(
+                name: "id",
+                in: "path",
+                required: true,
+                description: "id dell'associato da recuperare",
+                schema: new OA\Schema(type: "string", minimum:16, description:"user id"),
+            )],
+        responses: [
+            new OA\Response(response: 200, description: 'true or false'),
+            new OA\Response(response: 404, description: 'associato non trovato'),
+            new OA\Response(response: 500, description: 'problemi con il controllo della tessera'),
+        ]
+    )]
+    public function controllaTessera(Request $request){
+        if(!empty($request['tessera'])){
+            $data = Associati::where('id', $request['tessera'])->get();
+            if($data->count() > 0){
+                return response()->json(['message' => true], 200);
+            }
+            return response()->json(['message' => 'numero di tessera non trovato'], 404);
+        }
+        return response()->json(['message' => 'problemi con il controllo della tessera'], 500);
+    }
+
 }

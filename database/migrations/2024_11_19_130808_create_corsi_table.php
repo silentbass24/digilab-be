@@ -15,8 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('titolo');
             $table->text('descrizione');
-            $table->dateTime('data_inizio');
-            $table->dateTime('data_fine');
+            $table->date('data_inizio');
+            $table->date('data_fine');
             $table->float('costo');
             $table->timestamps();
         });

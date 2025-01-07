@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('iscrizione_corsi', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->uuid('associato_id');
             $table->foreign('associato_id')->references('id')->on('associati')->onDelete('cascade');
             $table->uuid('corso_id');
             $table->foreign('corso_id')->references('id')->on('corsi')->onDelete('cascade');
-            $table->timestamps();
+            $table->date('data_iscrizione');
+            $table->boolean('pagato');
         });
     }
 

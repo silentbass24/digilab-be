@@ -66,9 +66,9 @@ class AuthController extends Controller
                 'password.min' => 'La password deve contenere almeno 8 caratteri',
             ]);
             if (!$validate->fails()){
-                $user = Users::where('email', $request['email'])->get();
-                Log::info($user->password);
-                if(!$user || Hash::check($request['password'], $user->password)){
+                $user = Users::where('email', $request['email'])->first();
+
+                if(empty($user) || !Hash::check($request['password'], $user['password'])){
                     return response()->json([
                         'message'=>'Username o password non corretti',
                     ],404);

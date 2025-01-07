@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Associati;
-use Illuminate\Support\Facades\Http;
+use App\Models\Users;
 
 class AssociatoControllerTest extends TestCase
 {
@@ -18,11 +18,17 @@ class AssociatoControllerTest extends TestCase
      */
     public function testGetAllAssociati()
     {
+        $user = Users::factory()->create();
+        $token = $user->createToken('TestToken')->plainTextToken;
+
         // Crea alcuni record di esempio nel database
         Associati::factory()->count(3)->create();
 
         // Effettua una richiesta GET all'endpoint
-        $response = $this->get('/api/associati');
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/associati');
+
 
         // Verifica che la risposta abbia un codice di stato 200
         $response->assertStatus(200);
@@ -86,6 +92,9 @@ class AssociatoControllerTest extends TestCase
     }
 
     public function testUpdateAssociato(){
+        $user = Users::factory()->create();
+        $token = $user->createToken('TestToken')->plainTextToken;
+
         $associato = Associati::factory()->create([
             'id' => uniqid(),
             'nome' => 'Mario',
@@ -121,7 +130,9 @@ class AssociatoControllerTest extends TestCase
             'data_scadenza' => date('Y-m-d', strtotime('+1 year'))
         ];
 
-        $response = $this->put("api/modifica-associato/" . $associato->id, $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->put("api/modifica-associato/" . $associato->id, $data);
         $response->assertStatus(200);
         $this->assertDatabaseHas('associati', [
             'id'=> $associato->id,
@@ -137,6 +148,9 @@ class AssociatoControllerTest extends TestCase
     }
 
     public function testOttieniAssociato(){
+        $user = Users::factory()->create();
+        $token = $user->createToken('TestToken')->plainTextToken;
+
         $associato = Associati::factory()->create([
             'id' => uniqid(),
             'nome' => 'Mario',
@@ -154,7 +168,10 @@ class AssociatoControllerTest extends TestCase
             'iscritto' => 0,
         ]);
 
-        $response = $this->get("api/associato/" . $associato->id);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get("api/associato/" . $associato->id);
+
         $response->assertStatus(200);
         $this->assertDatabaseHas('associati', [
             'id' => $associato->id,
@@ -175,6 +192,9 @@ class AssociatoControllerTest extends TestCase
     }
 
     public function testEliminaAssociato(){
+        $user = Users::factory()->create();
+        $token = $user->createToken('TestToken')->plainTextToken;
+
         $associato = Associati::factory()->create([
             'id' => uniqid(),
             'nome' => 'Mario',
@@ -191,7 +211,9 @@ class AssociatoControllerTest extends TestCase
             'data_nascita' => '1980-01-01',
             'iscritto' => 0,
         ]);
-        $response = $this->delete("api/elimina-associato/" . $associato->id);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete("api/elimina-associato/" . $associato->id);
         $response->assertStatus(200);
     }
 }

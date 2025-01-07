@@ -8,10 +8,11 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Corsi
- * 
+ *
  * @property string $id
  * @property string $titolo
  * @property string $descrizione
@@ -23,14 +24,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Corsi extends Model
 {
+    use HasFactory;
 	protected $table = 'corsi';
 	protected $primaryKey = 'id(16';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'data inizio' => 'datetime',
-		'data fine' => 'datetime',
+		'data_inizio' => 'date',
+		'data_fine' => 'date',
 		'costo' => 'float'
 	];
 
@@ -38,8 +40,8 @@ class Corsi extends Model
 		'id',
 		'titolo',
 		'descrizione',
-		'data inizio',
-		'data fine',
+		'data_inizio',
+		'data_fine',
 		'costo'
 	];
 }

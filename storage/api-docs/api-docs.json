@@ -297,12 +297,503 @@
                     }
                 }
             }
+        },
+        "/api/conferma-associato/{id}": {
+            "put": {
+                "tags": [
+                    "gestione associati"
+                ],
+                "summary": "Conferma associazione",
+                "description": "conferma l'iscrizione dell'associato",
+                "operationId": "3d137f5edeef94bd260c606310b8e7c4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id dell'associato da recuperare",
+                        "required": true,
+                        "schema": {
+                            "description": "user id",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "conferma iscrizione"
+                    },
+                    "404": {
+                        "description": "associato non trovato"
+                    },
+                    "500": {
+                        "description": "Errore nella conferma"
+                    }
+                }
+            }
+        },
+        "/api/lista-corsi": {
+            "get": {
+                "tags": [
+                    "gestione corsi"
+                ],
+                "summary": "Recupera la lista dei corsi",
+                "operationId": "4a9bbe2eafbb67010473c5fb37e9ed07",
+                "responses": {
+                    "200": {
+                        "description": "lista corsi"
+                    },
+                    "500": {
+                        "description": "Errore nel recupero della lista degli associati"
+                    }
+                }
+            }
+        },
+        "/api/nuovo-corso": {
+            "post": {
+                "tags": [
+                    "gestione corsi"
+                ],
+                "summary": "Aggiunge un nuovo corso",
+                "description": "inserisce i dati di un nuovo corso nel database",
+                "operationId": "e7e426da3e2ba69403fd902717135362",
+                "requestBody": {
+                    "description": "dati corso",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titolo",
+                                    "descrizione",
+                                    "data_inizio",
+                                    "data_fine",
+                                    "costo"
+                                ],
+                                "properties": {
+                                    "titolo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "descrizione": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "data_inizio": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "data_fine": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "costo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "corso aggiunto"
+                    },
+                    "204": {
+                        "description": "dati mancanti o non validi"
+                    },
+                    "500": {
+                        "description": "Errore nell'inserimento del nuovo corso"
+                    }
+                }
+            }
+        },
+        "/api/elimina-corso/{id}": {
+            "delete": {
+                "tags": [
+                    "gestione corsi"
+                ],
+                "summary": "Elimina un corso tramite il suo id",
+                "operationId": "694e59018908326a1feb7905062876d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id del corso da eliminare",
+                        "required": true,
+                        "schema": {
+                            "description": "id corso",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "corso eliminato"
+                    },
+                    "404": {
+                        "description": "corso non trovato"
+                    }
+                }
+            }
+        },
+        "/api/corso/{id}": {
+            "get": {
+                "tags": [
+                    "gestione corsi"
+                ],
+                "summary": "Recupera un corso tramite il suo id",
+                "operationId": "14359d0498a28e47a4542aeec9e32a7e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id del corso da recuperare",
+                        "required": true,
+                        "schema": {
+                            "description": "id corso",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "dati del corso"
+                    },
+                    "404": {
+                        "description": "corso non trovato"
+                    },
+                    "500": {
+                        "description": "errore nella richiesta"
+                    }
+                }
+            }
+        },
+        "/api/modifica-corso/{id}": {
+            "put": {
+                "tags": [
+                    "gestione corsi"
+                ],
+                "summary": "Modifica corso",
+                "description": "modifica i dati del corso nel database",
+                "operationId": "2837451d1681fba210db0f21ec708179",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id del corso da recuperare",
+                        "required": true,
+                        "schema": {
+                            "description": "id corso",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "dati corso",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "titolo",
+                                    "descrizione",
+                                    "data_inizio",
+                                    "data_fine",
+                                    "costo"
+                                ],
+                                "properties": {
+                                    "titolo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "descrizione": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "data_inizio": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "data_fine": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "costo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "corso aggiunto"
+                    },
+                    "204": {
+                        "description": "dati corso mancanti"
+                    },
+                    "500": {
+                        "description": "Errore nell'aggiornamento del nuovo corso"
+                    }
+                }
+            }
+        },
+        "/api/nuova-iscrizione": {
+            "post": {
+                "tags": [
+                    "gestione iscrizioni"
+                ],
+                "summary": "Aggiunge un nuovo iscritto ad un corso",
+                "description": "inserisce i dati di un'iscrizione ad un corso'",
+                "operationId": "2ba79567dfd5a108d24010c1d39e5408",
+                "requestBody": {
+                    "description": "dati iscrizione",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "associato_id",
+                                    "corso_id",
+                                    "data_iscrizione",
+                                    "pagato"
+                                ],
+                                "properties": {
+                                    "associato_id": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "corso_id": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "data_iscrizione": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "data_fine": {
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "costo": {
+                                        "type": "string",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "corso aggiunto"
+                    },
+                    "204": {
+                        "description": "dati mancanti o non validi"
+                    },
+                    "500": {
+                        "description": "Errore nell'inserimento del nuovo corso"
+                    }
+                }
+            }
+        },
+        "/api/elimina-iscrizione/{id}": {
+            "delete": {
+                "tags": [
+                    "gestione iscrizioni"
+                ],
+                "summary": "Elimina un 'iscrizione tramite id associato",
+                "operationId": "cf4f5ccd1662b801625c386de15f1eab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id dell\\'associato da eliminare come iscrizione",
+                        "required": true,
+                        "schema": {
+                            "description": "id associato",
+                            "type": "string",
+                            "minimum": 16
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "iscrizione eliminata"
+                    },
+                    "404": {
+                        "description": "iscrizione non trovata"
+                    },
+                    "500": {
+                        "description": "errore dei dati ricevuti"
+                    }
+                }
+            }
+        },
+        "/api/iscrizioni-per-corso/{id}": {
+            "get": {
+                "tags": [
+                    "gestione iscrizioni"
+                ],
+                "summary": "Recupera tutti gli associati iscritti ad un corso selezionato",
+                "operationId": "f3781b8cce377b5fdd690b8226fcda33",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del corso",
+                        "required": true,
+                        "schema": {
+                            "description": "ID corso",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista delle iscrizioni",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "corso_id": {
+                                                "type": "string",
+                                                "format": "text"
+                                            },
+                                            "titolo": {
+                                                "type": "string",
+                                                "format": "text"
+                                            },
+                                            "nome": {
+                                                "type": "string",
+                                                "format": "text"
+                                            },
+                                            "cognome": {
+                                                "type": "string",
+                                                "format": "text"
+                                            },
+                                            "data_iscrizione": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "pagato": {
+                                                "type": "boolean"
+                                            },
+                                            "associato_id": {
+                                                "type": "string",
+                                                "format": "text"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Dati mancanti"
+                    },
+                    "404": {
+                        "description": "Corso non trovato"
+                    },
+                    "500": {
+                        "description": "Errore nel recupero della lista degli associati"
+                    }
+                }
+            }
+        },
+        "/api/iscrizioni-per-associato/{id}": {
+            "get": {
+                "tags": [
+                    "gestione iscrizioni"
+                ],
+                "summary": "Recupera tutti i corsi ai quali è iscritto l'associato selezionato",
+                "operationId": "3e12822a941946831553f562a927ced3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del'associato",
+                        "required": true,
+                        "schema": {
+                            "description": "id associato",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista delle iscrizioni",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "corso_id": {
+                                                "type": "string",
+                                                "format": "text"
+                                            },
+                                            "titolo": {
+                                                "type": "string",
+                                                "format": "text"
+                                            },
+                                            "data_iscrizione": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "pagato": {
+                                                "type": "boolean"
+                                            },
+                                            "associato_id": {
+                                                "type": "string",
+                                                "format": "text"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Dati mancanti"
+                    },
+                    "404": {
+                        "description": "Associato non trovato"
+                    },
+                    "500": {
+                        "description": "Errore nel recupero della lista dei corsi"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "gestione associati",
             "description": "gestione associati"
+        },
+        {
+            "name": "gestione corsi",
+            "description": "gestione corsi"
+        },
+        {
+            "name": "gestione iscrizioni",
+            "description": "gestione iscrizioni"
         }
     ]
 }
